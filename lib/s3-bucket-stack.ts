@@ -16,15 +16,17 @@ export class S3BucketStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    this.bucket = new s3.Bucket(this, "gefyra-data-collection-dev",{
+    this.bucket = new s3.Bucket(this, "gefyra-data-collection",{
       versioned: false,
-      bucketName: "gefyra-data-collection-dev",
+      bucketName: "gefyra-data-collection",
       publicReadAccess: false,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
 
     // Assigning notifications to be sent to the Lambda function
-    this.bucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(props.lambdaFunction));
+    this.bucket.addEventNotification(s3.EventType.OBJECT_CREATED,
+      new s3n.LambdaDestination(props.lambdaFunction
+    ));
   }
 }  
